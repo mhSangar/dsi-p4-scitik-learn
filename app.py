@@ -13,6 +13,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
+from sklearn.model_selection import cross_val_score
 
 
 logger = logging.getLogger(__name__)
@@ -41,9 +42,11 @@ def classifierResults(clf, dataset):
 
     logger.debug("Accuracy: {output}".format(output = accuracy_score(y_test, predict)))
 
-    logger.debug("Recall: {output}".format(output = recall_score(y_test, predict, average='micro')))
+    logger.debug("Recall: {output}".format(output = recall_score(y_test, predict, average=None)))
 
-    logger.debug("Precision: {output}".format(output = precision_score(y_test, predict, average='micro')))
+    logger.debug("Precision: {output}".format(output = precision_score(y_test, predict, average=None)))
+
+    logger.debug("Cross validation score: {output}".format(output = cross_val_score(clf, dataset.data, dataset.target, cv=5)))
 
 def main():
 
@@ -74,7 +77,7 @@ def main():
 
     logger.debug("------Algorithm: Neuronal Netowrk------")
 
-    clf = MLPClassifier(max_iter=500)
+    clf = MLPClassifier(max_iter=1000)
     classifierResults(clf, iris)
 
 
