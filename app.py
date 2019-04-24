@@ -24,7 +24,7 @@ def initLogger(level='INFO'):
                         datefmt='%d/%m/%Y %H:%M:%S', level=level)
     logger.debug('Logger is active')
 
-def classifierResults(clf, dataset):
+def classifierResults(clf, dataset, crossval=False):
 
     X_train, X_test, y_train, y_test = train_test_split(dataset.data, dataset.target)
 
@@ -46,7 +46,7 @@ def classifierResults(clf, dataset):
 
     logger.debug("Precision: {output}".format(output = precision_score(y_test, predict, average=None)))
 
-    logger.debug("Cross validation score: {output}".format(output = cross_val_score(clf, dataset.data, dataset.target, cv=5)))
+    if crossval: logger.debug("Cross validation score: {output}".format(output = cross_val_score(clf, dataset.data, dataset.target, cv=5)))
 
 def main():
 
@@ -57,13 +57,10 @@ def main():
     # print (iris.target)
     # print (iris.target_names)
 
-    #Support Vector Classification
-    #Utilizar frid search & cross validation para encontrar gamma adecuado
-
     logger.debug("------Algorithm: Decision Tree------")
 
     clf = tree.DecisionTreeClassifier()
-    classifierResults(clf, iris)
+    classifierResults(clf, iris, crossval=True)
 
     logger.debug("------Algorithm: Support Vector Classification------")
 
